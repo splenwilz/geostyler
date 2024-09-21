@@ -13,6 +13,7 @@ import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
+
 import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
@@ -35,6 +36,9 @@ public class MainLayout extends AppLayout {
         viewTitle = new H1();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
+
+ 
+
         addToNavbar(true, toggle, viewTitle);
     }
 
@@ -51,7 +55,7 @@ public class MainLayout extends AppLayout {
     private SideNav createNavigation() {
         SideNav nav = new SideNav();
 
-        nav.addItem(new SideNavItem("Hello World", HelloWorldView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
+        nav.addItem(new SideNavItem("GeoLocation", HelloWorldView.class, LineAwesomeIcon.GLOBE_SOLID.create()));
         nav.addItem(new SideNavItem("About", AboutView.class, LineAwesomeIcon.FILE.create()));
 
         return nav;
