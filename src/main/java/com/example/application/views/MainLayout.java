@@ -12,6 +12,7 @@ import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.server.VaadinSession;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 import org.vaadin.lineawesome.LineAwesomeIcon;
@@ -23,11 +24,37 @@ public class MainLayout extends AppLayout {
 
     private H1 viewTitle;
 
+    // This will hold the CSS fetched from the backend
+    private String customCss;
+
+    
     public MainLayout() {
         setPrimarySection(Section.DRAWER);
         addDrawerContent();
         addHeaderContent();
+        fetchCustomCss();
+        injectCustomCss();         
     }
+
+    // Add a method to get the custom CSS
+    public String getCustomCss() {
+        return customCss;
+    }
+
+    private void fetchCustomCss() {
+        // Simulate fetching CSS from a backend service
+        customCss = ".example { width: 100%; color: deepskyblue; } .locationstyle { font-size: 16px; color: darkgreen; }"; // Example CSS
+        // Store the custom CSS in VaadinSession for access in other views
+        VaadinSession.getCurrent().setAttribute("customCss", customCss);
+    }
+
+    private void injectCustomCss() {
+        // Inject the fetched CSS into the document
+        String style = "<style>" + customCss + "</style>";
+        getElement().executeJs("this.insertAdjacentHTML('beforeend', $0)", style);
+    }
+
+    
 
     private void addHeaderContent() {
         DrawerToggle toggle = new DrawerToggle();
@@ -43,8 +70,11 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        Span appName = new Span("My App");
+        Span appName = new Span("GeoStyler");
         appName.addClassNames(LumoUtility.FontWeight.SEMIBOLD, LumoUtility.FontSize.LARGE);
+
+        appName.getElement().getClassList().add("example");
+
         Header header = new Header(appName);
 
         Scroller scroller = new Scroller(createNavigation());
